@@ -1,6 +1,9 @@
+import TODO as TODO
 from flask import Flask
 from flask import render_template
 from car import Car
+
+#TODO create a new route, new template, new function in the car class, new class,
 
 
 app = Flask(__name__)
