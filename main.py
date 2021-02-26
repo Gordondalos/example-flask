@@ -2,7 +2,10 @@
 
 from flask import Flask
 from flask import render_template
+from flask import request
 from car import Car
+from model_loader import ModelLoader
+from urllib.parse import parse_qs
 
 #TODO create a new route, new template, new function in the car class, new class,
 from truck import Truck
@@ -22,9 +25,16 @@ def about():
     return render_template('about.html', color=car.get_color(), lens=lens)
 
 
-@app.route('/contacts')
+@app.route('/contacts', methods=['GET', 'POST'])
 def contacts():
-    return render_template('contacts.html')
+    req_data = parse_qs(request.get_data())
+    print(req_data[b'data'][0])
+
+    path = 'static/data/data.pkl'
+    model = ModelLoader(path, req_data[b'data'][0])
+    res = model.get_res()
+
+    return render_template('contacts.html', res=res)
 
 
 @app.route('/additional_info')
